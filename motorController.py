@@ -36,8 +36,8 @@ GPIO.setup(ECHO3,GPIO.IN)
 
 
 #Motor Controller
-motor1F = 7
-motor1B = 11
+motor1F = 11
+motor1B = 7
 motor1E = 22
 
 motor2F = 16

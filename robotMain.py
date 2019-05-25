@@ -17,13 +17,11 @@ def callback(flameCenter):
 
 goingForward = False
 goingBackward = False
-classMode = 0
+classMode = 1
 
 try:
         while True:
-            motor.stop()
             char = screen.getch()
-
             if char == ord('q'):
                 break
 
@@ -34,20 +32,20 @@ try:
                 goingForward = True
                 goingBackward = False
                 print("Moving Forward")
-                motor.forward(50,50)
+                variable = motor.forward(50,50)
 
             elif char == curses.KEY_DOWN:
                 goingForward = False
                 goingBackward = True
                 print("Moving Backward")
-                motor.backward(50,50)
+                variable = motor.backward(50,50)
 
             elif char == curses.KEY_RIGHT and goingForward:
-                motor.forwRight(75,50)
+                motor.forwRight()
                 print("Moving Front/Right")
 
             elif char == curses.KEY_RIGHT and goingBackward:
-                motor.backRight(75,50)
+                motor.backRight()
                 print("Moving Back/Right")
 
             elif char == curses.KEY_RIGHT:
@@ -55,11 +53,11 @@ try:
                 print("Moving Right")
 
             elif char == curses.KEY_LEFT and goingForward:
-                motor.forwLeft(50,75)
+                motor.forwLeft()
                 print("Moving Front/Left")
 
             elif char == curses.KEY_LEFT and goingBackward:
-                motor.backLeft(50,75)
+                motor.backLeft()
                 print("Moving Back/Left")
 
             elif char == curses.KEY_LEFT:
@@ -75,29 +73,31 @@ try:
             #if char == ord('u'):
             if classMode == 1 or char == ord('u'):
                 print("Entering Class Presentation Mode")
+                movingVariable = True                   #Boolean starts as True to ensure that robot starts moving when in automated mode.
                 while True:
                         L = 30
                         R = 37
-                        motor.forward(L,R)
                         char = screen.getch()
                         if char == ord ('q'):
                                 print ("Quitting class navigation")
                                 classMode = 0
                                 break
 
-                        #elif char == ord('m'):
-                        #        motor.forward(L,R)
+                        elif movingVariable:            #Variable exists to make the robot start moving when it enters automated mode.
+                                motor.forward(L,R)
+                                movingVariable = False
 
                         elif motor.flameCenter() == 1:
                                 print ("Center Flame doing something")
                                 while motor.flameCenter() == 1:
                                         motor.stop()
-                        #                motor.waterPump()
-                                motor.backward(randint(0,100),randint(0,100))
+                                        motor.waterPump()
+                                motor.backward(randint(0,100),randint(0,100))   #Ensures that robot moves backwards at random to avoid the obstacle in front of it
                                 time.sleep(2)
                                 motor.forward(L,R)
 
                         elif motor.flameLeft() == 1:
+                                print ("Left Flame doing something")
                                 motor.stop()
 #                                print("Left flame detected. Stopping motor")
                                 if motor.flameCenter() == 0:
@@ -105,6 +105,7 @@ try:
                                         motor.left(30,30)
 
                         elif motor.flameRight() == 1:
+                                print ("Right Flame doing something")
                                 motor.stop()
 #                                print("Right flame detected. Stopping motor")
                                 if motor.flameCenter() == 0:
