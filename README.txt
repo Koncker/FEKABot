@@ -22,5 +22,4 @@ Change Log: 19.05.25
 	- Fixed some issues with Manual Control
 	- Missing comments on robotMain.py
 
-
-
+All rights of this are reserved to Vicky 'Koncker' Rajani and Luis Teixeira
